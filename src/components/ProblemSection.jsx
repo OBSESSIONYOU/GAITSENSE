@@ -1,6 +1,8 @@
 import React from 'react';
 
 const ProblemSection = () => {
+  const assetBase = import.meta.env.BASE_URL;
+
   return (
     <section className="w-full bg-[#F4F4F1] flex justify-center border-t border-divider">
       <div className="w-full max-w-page flex flex-col lg:flex-row items-stretch">
@@ -9,7 +11,7 @@ const ProblemSection = () => {
         <div className="w-full lg:w-[40%] flex items-center justify-center px-6 lg:pl-10 lg:pr-8 py-10 lg:py-14">
           <div className="relative w-full h-full min-h-[400px] max-w-[440px] overflow-hidden rounded-[2px] grayscale-[40%] opacity-85 shadow-sm">
             <img
-              src="/Phase 3.png"
+              src={`${assetBase}Phase 3.png`}
               alt="Controlled Access Environment"
               className="absolute inset-0 w-full h-full object-cover object-[left_center]"
             />

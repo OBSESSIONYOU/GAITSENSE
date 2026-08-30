@@ -313,6 +313,21 @@ test('GitHub Pages 构建使用仓库路径并让路由复用 Vite 基础路径'
   assert.match(app, /<Router\s+basename=\{import\.meta\.env\.BASE_URL\}>/)
 })
 
+test('GitHub Pages 静态图片使用 Vite 基础路径', async () => {
+  const files = await Promise.all([
+    readFile(new URL('../index.html', import.meta.url), 'utf8'),
+    readFile(new URL('../src/components/Hero.jsx', import.meta.url), 'utf8'),
+    readFile(new URL('../src/components/ProblemSection.jsx', import.meta.url), 'utf8'),
+    readFile(new URL('../src/components/TechnologySection.jsx', import.meta.url), 'utf8'),
+    readFile(new URL('../src/components/ApplicationSection.jsx', import.meta.url), 'utf8')
+  ])
+  assert.match(files[0], /href="%BASE_URL%favicon\.svg"/)
+  for (const source of files.slice(1)) {
+    assert.match(source, /import\.meta\.env\.BASE_URL/)
+    assert.doesNotMatch(source, /(?:src=|img:\s*)["']\/[^"']+\.(?:png|jpg|jpeg|svg|webp)["']/)
+  }
+})
+
 test('backend health view uses the same-origin health proxy', async () => {
   const page = await readFile(new URL('../public/backend-health.html', import.meta.url), 'utf8')
   assert.match(page, /fetch\(['"]\/_backend\/health['"]/)

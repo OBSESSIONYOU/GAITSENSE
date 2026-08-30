@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 
 const Hero = () => {
   const navigate = useNavigate();
+  const assetBase = import.meta.env.BASE_URL;
 
   return (
     <section className="w-full relative min-h-[90vh] lg:min-h-[720px] flex flex-col justify-start bg-background overflow-hidden">
@@ -11,7 +12,7 @@ const Hero = () => {
       {/* Full Bleed Background Image */}
       <div className="absolute inset-0 w-full h-full z-0">
         <img
-          src="/hospital_corridor_2.png"
+          src={`${assetBase}hospital_corridor_2.png`}
           alt="Controlled Hospital Environment"
           className="w-full h-full object-cover object-bottom grayscale-[15%]"
         />

@@ -1,6 +1,8 @@
 import React from 'react';
 
 const TechnologySection = () => {
+  const assetBase = import.meta.env.BASE_URL;
+
   return (
     <section className="w-full bg-[#EFF1EE] flex flex-col items-center py-8 md:py-10 border-t border-divider">
 
@@ -25,7 +27,7 @@ const TechnologySection = () => {
       <div className="w-full max-w-page px-6 lg:px-8 mx-auto relative z-10 mb-6 md:mb-8">
         <div className="w-full relative overflow-hidden bg-[#E8EAE7]">
           <img
-            src="/Phase 4.png"
+            src={`${assetBase}Phase 4.png`}
             alt="System Engineering Context"
             className="w-full h-[260px] md:h-[320px] lg:h-[340px] object-cover object-[center_60%]"
           />

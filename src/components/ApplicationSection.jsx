@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+const assetBase = import.meta.env.BASE_URL;
+
 const scenarios = [
   {
     id: '01',
@@ -7,7 +9,7 @@ const scenarios = [
     title: '医院检验科与防疫科',
     en: 'HOSPITAL LABORATORIES',
     subtitle: '防护装备长期佩戴',
-    img: '/scenarios/01.png',
+    img: `${assetBase}scenarios/01.png`,
     desc: '口罩、手套与面罩是工作流程的一部分，使人脸和接触式认证受到限制。步态识别可以在不增加额外摘脱动作的情况下完成身份判断。'
   },
   {
@@ -16,7 +18,7 @@ const scenarios = [
     title: 'P3 / P4 生物安全实验室',
     en: 'BIOSAFETY FACILITIES',
     subtitle: '减少受控区域内的额外交互',
-    img: '/scenarios/02.png',
+    img: `${assetBase}scenarios/02.png`,
     desc: '核心区与缓冲区强调严格隔离和低接触操作。非接触身份感知可以减少人员与认证设备、实体凭证之间不必要的交互。'
   },
   {
@@ -25,7 +27,7 @@ const scenarios = [
     title: '医药与芯片洁净车间',
     en: 'INDUSTRIAL CLEANROOMS',
     subtitle: '减少对洁净流程的干扰',
-    img: '/scenarios/03.png',
+    img: `${assetBase}scenarios/03.png`,
     desc: '高洁净度生产环境要求人员动作和接触尽可能克制。以自然行走完成身份感知，可减少停留、触碰和额外认证动作。'
   },
   {
@@ -34,7 +36,7 @@ const scenarios = [
     title: '高隐私受控区域',
     en: 'HIGH-PRIVACY ZONES',
     subtitle: '不依赖可见光人脸图像',
-    img: '/scenarios/04.png',
+    img: `${assetBase}scenarios/04.png`,
     desc: '毫米波雷达利用人体运动回波进行身份判断，不依赖可见光人脸图像，适用于对光学监控较为敏感的受控空间。'
   }
 ];
