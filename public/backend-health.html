@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GaitSense - 后端状态</title>
+    <style>
+      :root { color-scheme: dark; font-family: "Microsoft YaHei", system-ui, sans-serif; }
+      * { box-sizing: border-box; }
+      body { margin: 0; min-width: 320px; min-height: 100vh; background: #161716; color: #f3f6f3; }
+      main { width: min(720px, calc(100% - 32px)); margin: 0 auto; padding: 72px 0 48px; }
+      header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; border-bottom: 1px solid #4f554f; padding-bottom: 20px; }
+      h1 { margin: 0; font-size: 28px; font-weight: 700; letter-spacing: 0; }
+      a { color: #9cd9b0; text-decoration: none; }
+      a:focus-visible { outline: 2px solid #f0bd62; outline-offset: 3px; }
+      .summary { display: flex; align-items: center; gap: 10px; margin: 32px 0; font-size: 18px; }
+      .dot { width: 10px; height: 10px; border-radius: 50%; background: #f0bd62; }
+      .ok .dot { background: #42b883; }
+      .error .dot { background: #df6c5f; }
+      dl { display: grid; grid-template-columns: 144px 1fr; margin: 0; border-top: 1px solid #4f554f; }
+      dt, dd { margin: 0; padding: 16px 0; border-bottom: 1px solid #3a3f3a; }
+      dt { color: #aeb7ae; }
+      dd { overflow-wrap: anywhere; }
+      #message { min-height: 24px; margin: 24px 0 0; color: #aeb7ae; }
+      @media (max-width: 520px) {
+        main { padding-top: 40px; }
+        header { align-items: flex-start; flex-direction: column; }
+        dl { grid-template-columns: 1fr; }
+        dt { border-bottom: 0; padding-bottom: 4px; }
+        dd { padding-top: 4px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>后端状态</h1>
+        <a href="/live">返回实时感知</a>
+      </header>
+      <p class="summary" id="summary"><span class="dot" aria-hidden="true"></span><strong id="status" role="status" aria-live="polite">正在读取</strong></p>
+      <dl>
+        <dt>运行状态</dt>
+        <dd id="state">-</dd>
+        <dt>数据源</dt>
+        <dd id="source">-</dd>
+        <dt>模型</dt>
+        <dd id="model">-</dd>
+        <dt>访问控制</dt>
+        <dd id="access">-</dd>
+      </dl>
+      <p id="message" aria-live="polite"></p>
+    </main>
+    <script>
+      const fields = {
+        status: document.querySelector('#status'),
+        summary: document.querySelector('#summary'),
+        state: document.querySelector('#state'),
+        source: document.querySelector('#source'),
+        model: document.querySelector('#model'),
+        access: document.querySelector('#access'),
+        message: document.querySelector('#message')
+      }
+
+      fetch('/_backend/health', { cache: 'no-store' })
+        .then(async (response) => {
+          const payload = await response.json()
+          if (!response.ok) throw new Error(`HTTP ${response.status}`)
+          return payload
+        })
+        .then((payload) => {
+          const runtime = payload.runtime || {}
+          const model = runtime.model || {}
+          const access = runtime.access_controller || {}
+          fields.status.textContent = payload.status === 'ok' ? '服务正常' : '服务异常'
+          fields.summary.classList.toggle('ok', payload.status === 'ok')
+          fields.state.textContent = runtime.state || '-'
+          fields.source.textContent = runtime.source_mode || '-'
+          fields.model.textContent = model.id || '默认模型'
+          fields.access.textContent = access.locked ? '已锁定' : '未锁定'
+        })
+        .catch(() => {
+          fields.status.textContent = '无法读取后端状态'
+          fields.summary.classList.add('error')
+          fields.message.textContent = '后端状态不可用'
+        })
+    </script>
+  </body>
+</html>
