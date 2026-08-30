@@ -8,6 +8,12 @@ After the GitHub Pages workflow completes, the public site is available at:
 
 https://obsessionyou.github.io/GAITSENSE/
 
+First-time repository setup:
+
+1. Open `Settings` > `Pages`.
+2. Under `Build and deployment`, set `Source` to `GitHub Actions`.
+3. Save, then rerun the `Deploy GitHub Pages` workflow or push a new commit.
+
 ## Local development
 
 ```powershell
