@@ -16,6 +16,9 @@ updates:
       interval: "weekly"
       day: "monday"
     open-pull-requests-limit: 3
+    allow:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor", "version-update:semver-patch"]
     groups:
       minor-and-patch:
         patterns: ["*"]

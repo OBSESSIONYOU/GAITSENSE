@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: pages
+  group: pages-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -27,6 +27,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm audit --audit-level=high --registry=https://registry.npmjs.org
       - run: npm test
       - run: npm run build
       - run: cp dist/index.html dist/404.html
@@ -36,7 +37,7 @@ jobs:
 
   deploy:
     needs: build
-    if: github.event_name != 'pull_request'
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     permissions:
       contents: read
